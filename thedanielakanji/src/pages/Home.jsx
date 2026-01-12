@@ -1,7 +1,12 @@
+import heroBg from "../assets/hero-bg.jpeg";
+
+
 export default function Home() {
   return (
     <main>
-      <section className="bg-gradient-to-br from-blue-800 via-blue-700 to-blue-600 text-white">
+      <section className="min-h-screen relative overflow-hidden bg-no-repeat bg-contain"
+      style={{ backgroundImage: `url(${heroBg})` }}
+      >
         <div className="max-w-7xl mx-auto px-8 py-32">
           <h1 className="text-4xl md:text-5xl font-bold max-w-3xl leading-tight">
             Strategic Public Relations & Communications for Leaders Who Care About Reputation

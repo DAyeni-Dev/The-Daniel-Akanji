@@ -2,7 +2,7 @@ import { useState } from "react";
 import emailjs from "@emailjs/browser";
 
 export default function Book() {
-  // FORM STATE
+ 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
