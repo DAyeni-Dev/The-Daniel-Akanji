@@ -2,7 +2,6 @@ import { useState } from "react";
 import emailjs from "@emailjs/browser";
 
 export default function Book() {
- 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,7 +15,6 @@ export default function Book() {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // FORM VALIDITY (for button disable)
   const isFormValid =
     formData.name.trim() &&
     formData.email.trim() &&
@@ -24,64 +22,43 @@ export default function Book() {
     formData.service.trim() &&
     formData.message.trim();
 
-  // HANDLE INPUT CHANGE
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // VALIDATE FORM
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Full name is required";
-    }
-
+    if (!formData.name.trim()) newErrors.name = "Full name is required";
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!emailRegex.test(formData.email)) {
       newErrors.email = "Enter a valid email address";
     }
-
-    if (!formData.service.trim()) {
+    if (!formData.service.trim())
       newErrors.service = "Please select a service";
-    }
-
-    if (!formData.message.trim()) {
+    if (!formData.message.trim())
       newErrors.message = "Please provide a brief message";
-    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // SUBMIT FORM
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!validateForm()) return;
 
     setLoading(true);
 
-    // 1️⃣ Send admin email
     emailjs
       .send(
         "service_2ld1mqk",
         "template_0m9r2xv",
-        {
-          name: formData.name,
-          email: formData.email,
-          service: formData.service,
-          message: formData.message,
-        },
+        formData,
         "d-yO8sfsteJA757u0"
       )
-      // 2️⃣ Send client confirmation email
-      .then(() => {
-        return emailjs.send(
+      .then(() =>
+        emailjs.send(
           "service_2ld1mqk",
           "template_n6l7nva",
           {
@@ -90,9 +67,8 @@ export default function Book() {
             service: formData.service,
           },
           "d-yO8sfsteJA757u0"
-        );
-      })
-      // 3️⃣ Success
+        )
+      )
       .then(() => {
         setSuccess(true);
         setFormData({
@@ -103,201 +79,163 @@ export default function Book() {
         });
         setErrors({});
       })
-      // 4️⃣ Error handling
-      .catch((error) => {
-        console.error(error);
-        alert("Something went wrong. Please try again.");
-      })
-      // 5️⃣ Stop loading
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => setLoading(false));
   };
 
   return (
-    <main className="py-24">
-      <div className="max-w-5xl mx-auto px-8 grid md:grid-cols-2 gap-16">
-        {/* LEFT CONTENT */}
+    <main className="bg-white py-24">
+      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16">
+        
         <section>
-          <h1 className="text-4xl font-bold mb-6">Book a Consultation</h1>
-          <p className="text-gray-600 mb-8">
+          <h1 className="text-4xl font-bold mb-6 text-[#FF9A4A]">
+            Book a Consultation
+          </h1>
+
+          <p className="text-gray-700 mb-10 leading-relaxed">
             This private consultation is designed to help you gain clarity on
             your communication challenges, brand positioning, and reputation
             strategy.
           </p>
 
-          <ul className="space-y-5 text-gray-700">
+          <ul className="space-y-6 text-[#B7743F]">
             <li>
-              <span className="font-semibold">What to expect:</span>
-              <br />
-              A focused, one-on-one discussion tailored to your needs.
+              <span className="font-semibold">What to expect</span>
+              <p className="text-gray-600">
+                A focused, one-on-one discussion tailored to your needs.
+              </p>
             </li>
-
             <li>
-              <span className="font-semibold">Who it’s for:</span>
-              <br />
-              Business owners, corporate professionals, and public figures.
+              <span className="font-semibold">Who it’s for</span>
+              <p className="text-gray-600">
+                Business owners, corporate professionals, and public figures.
+              </p>
             </li>
-
             <li>
-              <span className="font-semibold">Duration:</span>
-              <br />
-              30–60 minutes depending on scope.
+              <span className="font-semibold">Duration</span>
+              <p className="text-gray-600">30–60 minutes depending on scope.</p>
             </li>
-
             <li>
-              <span className="font-semibold">Confidentiality:</span>
-              <br />
-              All conversations are handled professionally.
+              <span className="font-semibold">Confidentiality</span>
+              <p className="text-gray-600">
+                All conversations are handled professionally.
+              </p>
             </li>
           </ul>
-        </section>
 
-        {/* FORM */}
-
-                        {success && (
-            <div className="mb-6 bg-green-100 text-green-700 p-4 rounded-md">
-              Your consultation request has been sent successfully. We’ll be in touch shortly.
-            </div>
-)}
-
-
-                  <div className="mt-8 text-center">
-            <h1 className="mb-4 text-gray-600">
-              Prefer to book directly?
-            </h1>
-
-            <section className="mt-24">
-            <h2 className="text-3xl font-semibold text-center mb-6">
-              Book a Time Instantly
+          
+          <div className="mt-16">
+            <h2 className="text-2xl font-semibold text-[#FF9A4A] mb-4">
+              Prefer to book instantly?
             </h2>
-
-            <p className="text-center text-gray-600 mb-10">
-              Prefer to secure a time immediately? Choose a slot that works for you.
+            <p className="text-gray-600 mb-8">
+              Choose a time that works for you and secure your session
+              immediately.
             </p>
 
-            <div className="w-full h-175">
+            <div className="w-full h-[500px] border rounded-lg overflow-hidden">
               <iframe
                 src="https://calendly.com/oluwadamilolaayeni321/30min"
                 width="100%"
                 height="100%"
                 frameBorder="0"
                 title="Calendly Booking"
-              ></iframe>
+              />
             </div>
-          </section>
-
           </div>
+        </section>
 
-        <section className="bg-gray-50 p-10 rounded-lg">
-          <h2 className="text-2xl font-semibold mb-6">
-            Request a Consultation
-          </h2>
+        
+        <section className="bg-[#FFFFFF] border border-[#132347]/10 p-10 rounded-xl shadow-sm">
+          {!success ? (
+            <>
+              <h2 className="text-2xl font-semibold mb-6 text-[#FF9A4A]">
+                Request a Consultation
+              </h2>
 
-          {success && (
-            <div className="mb-6 bg-green-100 text-green-700 p-4 rounded-md">
-              Consultation request submitted successfully. We’ll be in touch
-              shortly.
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {["name", "email"].map((field, i) => (
+                  <div key={i}>
+                    <label className="block text-sm font-medium mb-2 capitalize">
+                      {field === "name" ? "Full Name" : "Email Address"}
+                    </label>
+                    <input
+                      type={field === "email" ? "email" : "text"}
+                      name={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#FF9A4A]"
+                    />
+                    {errors[field] && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors[field]}
+                      </p>
+                    )}
+                  </div>
+                ))}
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Service of Interest
+                  </label>
+                  <select
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    className="w-full border rounded-md px-4 py-3"
+                  >
+                    <option value="">Select a Service</option>
+                    <option>Public Relations Strategy</option>
+                    <option>Corporate Communications</option>
+                    <option>Event Consultation</option>
+                    <option>Reputation Management</option>
+                    <option>Crisis Communications</option>
+                    <option>Media Relations</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Brief Message
+                  </label>
+                  <textarea
+                    rows="4"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="w-full border rounded-md px-4 py-3"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={!isFormValid || loading}
+                  className={`w-full py-4 rounded-md font-semibold transition-all duration-300 ${
+                    isFormValid && !loading
+                      ? "bg-[#132347] text-white hover:bg-[#FF9A4A]"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
+                >
+                  {loading ? "Sending..." : "Submit Request"}
+                </button>
+              </form>
+            </>
+          ) : (
+            
+            <div className="flex flex-col items-center text-center animate-[fadeIn_0.6s_ease-out]">
+              <div className="w-16 h-16 rounded-full bg-[#FF9A4A]/20 flex items-center justify-center mb-6">
+                <span className="text-3xl text-[#B7743F]">✓</span>
+              </div>
+
+              <h3 className="text-2xl font-semibold text-[#FF9A4A] mb-3">
+                Request Sent Successfully
+              </h3>
+
+              <p className="text-gray-600 max-w-sm">
+                Thank you for reaching out. Your consultation request has been
+                received, and you’ll be contacted shortly.
+              </p>
             </div>
           )}
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* NAME */}
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                Full Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full border rounded-md px-4 py-3"
-              />
-              {errors.name && (
-                <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-              )}
-            </div>
-
-                    
-            {/* EMAIL */}
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                Email Address
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full border rounded-md px-4 py-3"
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-              )}
-            </div>
-
-            {/* SERVICE */}
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                Service of Interest
-              </label>
-              <select
-                name="service"
-                value={formData.service}
-                onChange={handleChange}
-                className="w-full border rounded-md px-4 py-3"
-              >
-                <option value="">Select a Service</option>
-                <option>Public Relations Strategy</option>
-                <option>Corporate Communications</option>
-                <option>Event Consultation</option>
-                <option>Reputation Management</option>
-                <option>Crisis Communications</option>
-                <option>Media Relations</option>
-              </select>
-
-              {errors.service && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.service}
-                </p>
-              )}
-            </div>
-
-            {/* MESSAGE */}
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                Brief Message
-              </label>
-              <textarea
-                rows="4"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full border rounded-md px-4 py-3"
-              />
-              {errors.message && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.message}
-                </p>
-              )}
-            </div>
-
-            {/* SUBMIT */}
-            <button
-              type="submit"
-              disabled={!isFormValid || loading}
-              className={`w-full py-4 rounded-md font-semibold transition ${
-                isFormValid && !loading
-                  ? "bg-blue-700 text-white hover:bg-blue-800"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
-            >
-              {loading ? "Sending..." : "Submit Request"}
-            </button>
-              
-
-          </form>
         </section>
       </div>
     </main>
