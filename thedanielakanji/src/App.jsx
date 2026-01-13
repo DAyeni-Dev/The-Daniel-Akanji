@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import About from "./pages/About";
 import Book from "./pages/Book";
+import Contact from "./pages/contacts";
 
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
     <Route path="/" element={<Home />} />
     <Route path="/about" element={<About />} />
     <Route path="/book" element={<Book />} />
+    <Route path="/contact" element={<Contact />} />
   </Routes>
   <Footer />
 </BrowserRouter>

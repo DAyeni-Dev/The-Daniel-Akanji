@@ -163,18 +163,30 @@ export default function Book() {
 
 
                   <div className="mt-8 text-center">
-            <p className="mb-4 text-gray-600">
+            <h1 className="mb-4 text-gray-600">
               Prefer to book directly?
+            </h1>
+
+            <section className="mt-24">
+            <h2 className="text-3xl font-semibold text-center mb-6">
+              Book a Time Instantly
+            </h2>
+
+            <p className="text-center text-gray-600 mb-10">
+              Prefer to secure a time immediately? Choose a slot that works for you.
             </p>
 
-            <a
-              href="https://calendly.com/oluwadamilolaayeni321/30min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-blue-700 text-white px-8 py-4 rounded-md font-semibold hover:bg-blue-800 transition"
-            >
-              Book via Calendar
-            </a>
+            <div className="w-full h-175">
+              <iframe
+                src="https://calendly.com/oluwadamilolaayeni321/30min"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                title="Calendly Booking"
+              ></iframe>
+            </div>
+          </section>
+
           </div>
 
         <section className="bg-gray-50 p-10 rounded-lg">
@@ -283,26 +295,7 @@ export default function Book() {
             >
               {loading ? "Sending..." : "Submit Request"}
             </button>
-              <section className="mt-24">
-            <h2 className="text-3xl font-semibold text-center mb-6">
-              Book a Time Instantly
-            </h2>
-
-            <p className="text-center text-gray-600 mb-10">
-              Prefer to secure a time immediately? Choose a slot that works for you.
-            </p>
-
-            <div className="w-full h-[700px]">
-              <iframe
-                src="https://calendly.com/oluwadamilolaayeni321/30min"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                title="Calendly Booking"
-              ></iframe>
-            </div>
-          </section>
-
+              
 
           </form>
         </section>
