@@ -1,12 +1,21 @@
+import { motion } from "framer-motion"; 
 import danielImage from "../assets/The-daniel-Akanji.jpeg";
+
+const sectionAnimation = {
+  initial: { opacity: 0, y: 40 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: "easeOut" },
+  viewport: { once: true },
+};
 
 export default function Home() {
   return (
     <main style={{ backgroundColor: "#FFFFFF" }}>
       
-      <section
+      <motion.section
+        {...sectionAnimation}
         className="min-h-screen relative overflow-hidden flex items-center"
-        style={{ backgroundColor: "#F5F5F5", color: "#000000"  }}
+        style={{ backgroundColor: "#F5F5F5", color: "#000000" }}
       >
         <div className="max-w-7xl mx-auto px-8 py-20">
           <h1
@@ -27,17 +36,15 @@ export default function Home() {
           <div className="mt-10 flex space-x-6">
             <a
               href="/about"
-              className="border px-8 py-4 rounded-md  text-[#FF9A4A] bg-[#132347] hover:opacity-40 transition"
-              
+              className="border px-8 py-4 rounded-md text-[#FF9A4A] bg-[#132347] hover:opacity-40 transition"
             >
               Know More
             </a>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-     
-      <section className="py-24">
+      <motion.section {...sectionAnimation} className="py-24">
         <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h2
@@ -63,10 +70,9 @@ export default function Home() {
             />
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      
-      <section className="py-24">
+      <motion.section {...sectionAnimation} className="py-24">
         <div className="max-w-7xl mx-auto px-8">
           <h2
             className="text-3xl font-bold mb-12 text-center"
@@ -115,10 +121,9 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      
-      <section className="py-24">
+      <motion.section {...sectionAnimation} className="py-24">
         <div className="max-w-7xl mx-auto px-8">
           <h2
             className="text-3xl font-bold mb-12 text-center"
@@ -151,7 +156,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
     </main>
   );
 }

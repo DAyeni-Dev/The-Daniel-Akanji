@@ -1,5 +1,13 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
+
+const sectionAnimation = {
+  initial: { opacity: 0, y: 40 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: "easeOut" },
+  viewport: { once: true },
+};
 
 export default function Book() {
   const [formData, setFormData] = useState({
@@ -86,7 +94,7 @@ export default function Book() {
     <main className="bg-white py-24">
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16">
         
-        <section>
+        <motion.section {...sectionAnimation}>
           <h1 className="text-4xl font-bold mb-6 text-[#FF9A4A]">
             Book a Consultation
           </h1>
@@ -122,7 +130,6 @@ export default function Book() {
             </li>
           </ul>
 
-          
           <div className="mt-16">
             <h2 className="text-2xl font-semibold text-[#FF9A4A] mb-4">
               Prefer to book instantly?
@@ -142,10 +149,12 @@ export default function Book() {
               />
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        
-        <section className="bg-[#FFFFFF] border border-[#132347]/10 p-10 rounded-xl shadow-sm">
+        <motion.section
+          {...sectionAnimation}
+          className="bg-[#FFFFFF] border border-[#132347]/10 p-10 rounded-xl shadow-sm"
+        >
           {!success ? (
             <>
               <h2 className="text-2xl font-semibold mb-6 text-[#FF9A4A]">
@@ -220,7 +229,6 @@ export default function Book() {
               </form>
             </>
           ) : (
-            
             <div className="flex flex-col items-center text-center animate-[fadeIn_0.6s_ease-out]">
               <div className="w-16 h-16 rounded-full bg-[#FF9A4A]/20 flex items-center justify-center mb-6">
                 <span className="text-3xl text-[#B7743F]">✓</span>
@@ -236,7 +244,7 @@ export default function Book() {
               </p>
             </div>
           )}
-        </section>
+        </motion.section>
       </div>
     </main>
   );
