@@ -1,9 +1,16 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/hero-bg.jpeg";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const token = localStorage.getItem('adminToken');
+    setIsAdmin(!!token);
+  }, [location]);
 
   const closeMenu = () => setIsOpen(false);
 
@@ -49,6 +56,12 @@ export default function Navbar() {
           <NavLink to="/contact" className={desktopLinkClass}>
             Contact
           </NavLink>
+
+          {isAdmin && (
+            <NavLink to="/admin/dashboard" className={desktopLinkClass}>
+              Dashboard
+            </NavLink>
+          )}
 
           <NavLink
             to="/book"
@@ -109,6 +122,16 @@ export default function Navbar() {
           >
             Contact
           </NavLink>
+
+          {isAdmin && (
+            <NavLink
+              to="/admin/dashboard"
+              onClick={closeMenu}
+              className={mobileLinkClass}
+            >
+              Dashboard
+            </NavLink>
+          )}
 
           <NavLink
             to="/book"

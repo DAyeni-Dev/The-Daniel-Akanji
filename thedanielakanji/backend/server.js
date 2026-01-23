@@ -51,8 +51,34 @@ app.get('/', (req, res) => {
   res.send('API is running (File System Mode)...');
 });
 
-// Get all bookings
-app.get('/api/bookings', (req, res) => {
+// Simple Admin Authentication Middleware
+const authenticateAdmin = (req, res, next) => {
+  const { authorization } = req.headers;
+  // In production, use environment variable for password: process.env.ADMIN_PASSWORD
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'DanielAkanji';
+  
+  if (authorization === `Bearer ${ADMIN_PASSWORD}`) {
+    next();
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+};
+
+// Admin Login Endpoint
+app.post('/api/admin/login', (req, res) => {
+  const { username, password } = req.body;
+  const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'The Daniel Akanji';
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'DanielAkanji';
+  
+  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+    res.json({ token: ADMIN_PASSWORD, message: 'Login successful' });
+  } else {
+    res.status(401).json({ error: 'Invalid username or password' });
+  }
+});
+
+// Get all bookings (Protected)
+app.get('/api/bookings', authenticateAdmin, (req, res) => {
   try {
     if (fs.existsSync(DATA_FILE)) {
       const fileData = fs.readFileSync(DATA_FILE, 'utf8');
@@ -65,8 +91,8 @@ app.get('/api/bookings', (req, res) => {
   }
 });
 
-// Get all contacts
-app.get('/api/contacts', (req, res) => {
+// Get all contacts (Protected)
+app.get('/api/contacts', authenticateAdmin, (req, res) => {
   try {
     if (fs.existsSync(CONTACTS_FILE)) {
       const fileData = fs.readFileSync(CONTACTS_FILE, 'utf8');
