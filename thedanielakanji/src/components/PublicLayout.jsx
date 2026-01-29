@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { HomeIcon, AboutIcon, ContactIcon, BookIcon, DashboardIcon, MenuIcon, XIcon, BriefcaseIcon } from "./Icons";
 import Footer from "./Footer";
@@ -8,11 +8,17 @@ export default function PublicLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
+  const mainRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
     setIsAdmin(!!token);
     setIsSidebarOpen(false); // Close sidebar on route change
+    
+    // Scroll main content to top on route change
+    if (mainRef.current) {
+      mainRef.current.scrollTo(0, 0);
+    }
   }, [location]);
 
   const navLinkClass = ({ isActive }) =>
@@ -91,7 +97,7 @@ export default function PublicLayout() {
             </button>
          </div>
 
-        <main className="flex-1 overflow-auto">
+        <main ref={mainRef} className="flex-1 overflow-auto">
           <Outlet />
           <Footer />
         </main>
